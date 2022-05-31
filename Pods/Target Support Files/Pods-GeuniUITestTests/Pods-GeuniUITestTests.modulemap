@@ -1,0 +1,6 @@
+framework module Pods_GeuniUITestTests {
+  umbrella header "Pods-GeuniUITestTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
