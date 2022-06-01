@@ -34,8 +34,9 @@ class PagerView: UIView {
         $0.sizeToFit()
     }
     
-    private var previousOffset: CGFloat = 0
-    private var currentPage: Int = 0
+    private let items = [0, 0, 0, 0]
+    private var currentPage: Int = 1
+    private var currentOffset: CGFloat = 0
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
@@ -70,10 +71,10 @@ class PagerView: UIView {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: self.bounds.width, height: self.bounds.height)
         layout.minimumLineSpacing = 0
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+//        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.scrollDirection = .horizontal
-        layout.headerReferenceSize = CGSize(width: 0, height: self.bounds.height)
-        layout.footerReferenceSize = CGSize(width: 0, height: self.bounds.height)
+//        layout.headerReferenceSize = CGSize(width: 0, height: self.bounds.height)
+//        layout.footerReferenceSize = CGSize(width: 0, height: self.bounds.height)
         return layout
     }
 }
@@ -81,7 +82,7 @@ class PagerView: UIView {
 extension PagerView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return items.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -97,31 +98,38 @@ extension PagerView: UICollectionViewDataSource {
 
 extension PagerView: UICollectionViewDelegate {
     
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        self.currentPageLabel.text = "\(currentPage)"
+    }
+    
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let point = self.targetContentOffset(scrollView, withVelocity: velocity)
         targetContentOffset.pointee = point
-        self.currentPageLabel.text = "\(self.currentPage)"
         UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: velocity.x, options: .allowUserInteraction, animations: {
             self.collectionView.setContentOffset(point, animated: true)
         }, completion: nil)
     }
     
     func targetContentOffset(_ scrollView: UIScrollView, withVelocity velocity: CGPoint) -> CGPoint {
-        
         guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return .zero }
         
-        if previousOffset > collectionView.contentOffset.x && velocity.x < 0 {
+        if velocity.x < 0 {
+            if currentPage == 1 {
+                return CGPoint.zero
+            }
             currentPage = currentPage - 1
-        } else if previousOffset < collectionView.contentOffset.x && velocity.x > 0 {
+        } else if velocity.x > 0 {
+            if currentPage == items.count {
+                return CGPoint(x: currentOffset, y: 0)
+            }
             currentPage = currentPage + 1
         }
         
         let additional = (flowLayout.itemSize.width + flowLayout.minimumLineSpacing) - flowLayout.headerReferenceSize.width
         
         let updatedOffset = (flowLayout.itemSize.width + flowLayout.minimumLineSpacing) * CGFloat(currentPage) - additional
-        
-        previousOffset = updatedOffset
-        
+    
+        currentOffset = updatedOffset
         return CGPoint(x: updatedOffset, y: 0)
     }
 }
