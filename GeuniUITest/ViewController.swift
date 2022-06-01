@@ -54,10 +54,13 @@ class ViewController: UIViewController {
         $0.register(LifeBenefitImageButtonCell.self, forCellWithReuseIdentifier: "LifeBenefitImageButtonCell")
     }
     
+    let pagerView = PagerView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.collectionViewLayout = self.createLayout()
         self.view.addSubview(collectionView)
+        self.view.addSubview(pagerView)
         self.setupDataSource()
         self.performQuery(with: nil)
     }
@@ -142,5 +145,7 @@ class ViewController: UIViewController {
 extension ViewController {
     func layoutViews() {
         collectionView.pin.all(self.view.pin.safeArea)
+            .marginBottom(100)
+        pagerView.pin.bottom(self.view.pin.safeArea.bottom).height(100).left().right()
     }
 }

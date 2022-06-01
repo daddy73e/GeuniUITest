@@ -60,10 +60,6 @@ class LifeBenefitEventCell: UICollectionViewCell {
     }
     
     func configure(data: LifeBenefitEvent) {
-        
-        
-        
-        
         setNeedsLayout()
     }
 }
