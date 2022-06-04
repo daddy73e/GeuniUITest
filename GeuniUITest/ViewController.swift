@@ -42,7 +42,7 @@ class ViewController: UIViewController {
     
     
     var dataSource: UICollectionViewDiffableDataSource<Section, LifeBenefit>!
-    
+    // dev update
     
     let collectionView = UICollectionView(frame: .zero,
                                           collectionViewLayout: .init()).then {
