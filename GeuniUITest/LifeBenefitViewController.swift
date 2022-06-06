@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  LifeBenefitViewController.swift
 //  GeuniUITest
 //
 //  Created by 60157085 on 2022/05/31.
@@ -10,24 +10,25 @@ import FlexLayout
 import PinLayout
 import Then
 
-class ViewController: UIViewController {
+class LifeBenefitViewController: UIViewController {
     
     enum Section: CaseIterable {
         case main
     }
     
-    //    var arr = ["Zedd", "Alan Walker", "David Guetta", "Avicii", "Marshmello", "Steve Aoki", "R3HAB", "Armin van Buuren", "Skrillex", "Illenium", "The Chainsmokers", "Don Diablo", "Afrojack", "Tiesto", "KSHMR", "DJ Snake", "Kygo", "Galantis", "Major Lazer", "Vicetone"
-    //    ]
     var arr = [
         LifeBenefit(id: "001", lifeBenefitType: .fortune,
                     fortunes: [
                         LifeBenefitFortune(title: "오늘의 한 줄 운세",
                                            content: "진실하면 마음과 마음이 통하는 하루입니다.",
                                            url: "", imageUrl: "", backgroundColor: "")]),
-        LifeBenefit(id: "002", lifeBenefitType: .event,
+        LifeBenefit(id: "002",
+                    title: "이벤트",
+                    lifeBenefitType: .event,
                     events: [
                         LifeBenefitEvent(title: "이벤트1", url: "", imageUrl : "", backgroundColor: ""),
-                        LifeBenefitEvent(title: "이벤트2", url: "", imageUrl : "", backgroundColor: "")
+                        LifeBenefitEvent(title: "이벤트2", url: "", imageUrl : "", backgroundColor: ""),
+                        LifeBenefitEvent(title: "이벤트3", url: "", imageUrl : "", backgroundColor: "")
                     ]),
         LifeBenefit(id: "003", lifeBenefitType: .solQuiz,
                     solQuizs: [
@@ -36,7 +37,13 @@ class ViewController: UIViewController {
         LifeBenefit(id: "004", lifeBenefitType: .heyYoungQuiz,
                     heyYoungQuizs: [
                         LifeBenefitHeyYoungQuiz(quizTitle: "quiz", url: "", imageUrl: "", backgroundColor: "", buttonTitle: "퀴즈 참여하기")
-                    ])
+                    ]),
+        LifeBenefit(id: "005", lifeBenefitType: .myTownBenefit,
+                    myTowns: [
+                        LifeBenefitMyTown(title: "myTown1", content: "", url: "", imageUrl: "", backgroundColor: ""),
+                        LifeBenefitMyTown(title: "myTown2", content: "", url: "", imageUrl: "", backgroundColor: "")
+                    ]
+                    )
         
     ]
     
@@ -49,18 +56,17 @@ class ViewController: UIViewController {
         
         $0.backgroundColor = .systemBackground
         $0.register(LifeBenefitFortuneCell.self, forCellWithReuseIdentifier: "LifeBenefitFortuneCell")
-        $0.register(LifeBenefitEventCell.self, forCellWithReuseIdentifier: "LifeBenefitEventCell")
+        $0.register(LifeBenefitHorizontalPagingCell.self, forCellWithReuseIdentifier: "LifeBenefitHorizontalPagingCell")
         $0.register(LifeBenefitSolQuizeCell.self, forCellWithReuseIdentifier: "LifeBenefitSolQuizeCell")
         $0.register(LifeBenefitImageButtonCell.self, forCellWithReuseIdentifier: "LifeBenefitImageButtonCell")
+        $0.register(LifeBenefitMyTownCell.self, forCellWithReuseIdentifier: "LifeBenefitMyTownCell")
     }
-    
-    let pagerView = PagerView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = .yellow
         collectionView.collectionViewLayout = self.createLayout()
         self.view.addSubview(collectionView)
-        self.view.addSubview(pagerView)
         self.setupDataSource()
         self.performQuery(with: nil)
     }
@@ -76,10 +82,8 @@ class ViewController: UIViewController {
                 }
                 return cell
             case .event:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LifeBenefitEventCell", for: indexPath) as? LifeBenefitEventCell
-                if let data = lifeBenefit.events?[0] {
-                    cell?.configure(data:data)
-                }
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LifeBenefitHorizontalPagingCell", for: indexPath) as? LifeBenefitHorizontalPagingCell
+                cell?.configure(data:lifeBenefit)
                 return cell
             case .solQuiz:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LifeBenefitSolQuizeCell", for: indexPath) as? LifeBenefitSolQuizeCell
@@ -90,6 +94,12 @@ class ViewController: UIViewController {
             case .heyYoungQuiz:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LifeBenefitImageButtonCell", for: indexPath) as? LifeBenefitImageButtonCell
                 if let data = lifeBenefit.heyYoungQuizs?[0] {
+                    cell?.configure(data: data)
+                }
+                return cell
+            case .myTownBenefit:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LifeBenefitMyTownCell", for: indexPath) as? LifeBenefitMyTownCell
+                if let data = lifeBenefit.myTowns {
                     cell?.configure(data: data)
                 }
                 return cell
@@ -115,7 +125,7 @@ class ViewController: UIViewController {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int,
                                                             layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection in
             let columns = 1
-            let spacing = CGFloat(10)
+            let spacing = 0.0
             
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
@@ -142,10 +152,8 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController {
+extension LifeBenefitViewController {
     func layoutViews() {
         collectionView.pin.all(self.view.pin.safeArea)
-            .marginBottom(100)
-        pagerView.pin.bottom(self.view.pin.safeArea.bottom).height(100).left().right()
     }
 }

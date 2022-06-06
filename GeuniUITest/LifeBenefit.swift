@@ -16,6 +16,7 @@ public struct LifeBenefit :Hashable{
 
     public var id:String
     
+    public var title:String?
     ///모델 타입
     public var lifeBenefitType:LifeBenefitType
     //운세
@@ -37,6 +38,7 @@ public struct LifeBenefit :Hashable{
     
     public init(
         id:String,
+        title:String? = "",
         lifeBenefitType:LifeBenefitType,
         fortunes:[LifeBenefitFortune]? = [],
         events:[LifeBenefitEvent]? = [],

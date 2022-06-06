@@ -1,5 +1,5 @@
 //
-//  LifeBenefitEventCell.swift
+//  LifeBenefitHorizontalPagingCell.swift
 //  GeuniUITest
 //
 //  Created by 60157085 on 2022/05/31.
@@ -10,7 +10,7 @@ import FlexLayout
 import PinLayout
 import Then
 
-class LifeBenefitEventCell: UICollectionViewCell {
+class LifeBenefitHorizontalPagingCell: UICollectionViewCell {
 
     private let container = UIView().then {
         $0.backgroundColor = .white
@@ -20,10 +20,7 @@ class LifeBenefitEventCell: UICollectionViewCell {
         $0.layer.borderWidth = 1
     }
     
-    private let titleLabel = UILabel().then {
-        $0.text = "이벤트"
-        $0.font = UIFont.systemFont(ofSize: 14)
-    }
+    private let pagerView = PagerView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -46,20 +43,26 @@ class LifeBenefitEventCell: UICollectionViewCell {
     
     func setupViews() {
         contentView.flex.define { flex in
-            flex.addItem(container).margin(0)
+            flex.addItem(container).margin(0).backgroundColor(.blue)
         }
         
         container.flex.direction(.row).define { flex in
-            
+            flex.addItem(pagerView).grow(1).backgroundColor(.red)
         }
     }
     
     func layout() {
         container.pin.all()
         container.flex.layout()
+        pagerView.flex.layout()
     }
     
-    func configure(data: LifeBenefitEvent) {
+    func configure(data: LifeBenefit) {
+        let pageItem = PageItem(images: data.events?.compactMap { return $0.imageUrl },
+                                url: data.events?.compactMap { return $0.url })
+        self.pagerView.configItem(pageItem: pageItem)
         setNeedsLayout()
     }
 }
+
+

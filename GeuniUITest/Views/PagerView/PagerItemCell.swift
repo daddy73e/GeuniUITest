@@ -12,6 +12,10 @@ import Then
 
 class PagerItemCell: UICollectionViewCell {
  
+    static var identifier: String {
+        String(describing: Self.self)
+    }
+    
     private let titleLabel = UILabel().then {
         $0.text = "각 셀의 TITLE"
         $0.textColor = .red

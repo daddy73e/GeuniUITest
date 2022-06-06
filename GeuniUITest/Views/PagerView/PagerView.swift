@@ -12,6 +12,10 @@ import UIKit
 
 class PagerView: UIView {
     
+    public var pageItem:PageItem?
+    private var currentPage: Int = 1
+    private var currentOffset: CGFloat = 0
+    
     private let collectionView = UICollectionView(frame: .zero,
                                                   collectionViewLayout: .init()).then {
         $0.bounces = false
@@ -19,7 +23,7 @@ class PagerView: UIView {
         $0.isPagingEnabled = true
         $0.showsHorizontalScrollIndicator = false
         $0.register(PagerItemCell.self,
-                    forCellWithReuseIdentifier: "PagerItemCell")
+                    forCellWithReuseIdentifier: PagerItemCell.identifier)
     }
     
     private let titleLabel = UILabel().then {
@@ -28,15 +32,10 @@ class PagerView: UIView {
     }
     
     private let currentPageLabel = UILabel().then {
-        $0.text = "1"
         $0.textColor = .white
         $0.textAlignment = .right
         $0.sizeToFit()
     }
-    
-    private let items = [0, 0, 0, 0]
-    private var currentPage: Int = 1
-    private var currentOffset: CGFloat = 0
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
@@ -48,10 +47,17 @@ class PagerView: UIView {
         layout()
     }
     
+    public func configItem(pageItem:PageItem) {
+        self.pageItem = pageItem
+        
+        self.collectionView.reloadData()
+    }
+    
     private func configure() {
         self.addSubview(collectionView)
         self.addSubview(titleLabel)
         self.addSubview(currentPageLabel)
+        self.currentPageLabel.text = "\(currentPage)/\(self.pageItem?.images?.count ?? 0)"
         self.configCollectionView()
     }
     
@@ -61,32 +67,52 @@ class PagerView: UIView {
         currentPageLabel.pin.top().right().margin(20).width(100).height(20)
     }
     
-    func configCollectionView() {
+    private func configCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.collectionViewLayout = createLayout()
     }
     
-    func createLayout() -> UICollectionViewFlowLayout {
+    private func createLayout() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: self.bounds.width, height: self.bounds.height)
         layout.minimumLineSpacing = 0
-//        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.scrollDirection = .horizontal
-//        layout.headerReferenceSize = CGSize(width: 0, height: self.bounds.height)
-//        layout.footerReferenceSize = CGSize(width: 0, height: self.bounds.height)
         return layout
     }
+    
+    private func targetContentOffset(withVelocity velocity: CGPoint) -> CGPoint {
+        guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return .zero }
+        
+        if velocity.x < 0 {
+            if currentPage == 1 {
+                return CGPoint.zero
+            }
+            currentPage = currentPage - 1
+        } else if velocity.x > 0 {
+            if currentPage == self.pageItem?.images?.count {
+                return CGPoint(x: currentOffset, y: 0)
+            }
+            currentPage = currentPage + 1
+        }
+        
+        let additional = (flowLayout.itemSize.width + flowLayout.minimumLineSpacing)
+        let updatedOffset = (flowLayout.itemSize.width + flowLayout.minimumLineSpacing) * CGFloat(currentPage) - additional
+        
+        currentOffset = updatedOffset
+        return CGPoint(x: updatedOffset, y: 0)
+    }
+    
 }
 
 extension PagerView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.count
+        return pageItem?.images?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PagerItemCell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PagerItemCell.identifier, for: indexPath)
         if indexPath.item % 2 == 0 {
             cell.backgroundColor = .blue
         } else {
@@ -99,37 +125,20 @@ extension PagerView: UICollectionViewDataSource {
 extension PagerView: UICollectionViewDelegate {
     
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        self.currentPageLabel.text = "\(currentPage)"
+        self.currentPageLabel.text = "\(currentPage)/\(self.pageItem?.images?.count ?? 0)"
     }
     
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        let point = self.targetContentOffset(scrollView, withVelocity: velocity)
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView,
+                                   withVelocity velocity: CGPoint,
+                                   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let point = self.targetContentOffset(withVelocity: velocity)
         targetContentOffset.pointee = point
-        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: velocity.x, options: .allowUserInteraction, animations: {
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       usingSpringWithDamping: 1,
+                       initialSpringVelocity: velocity.x,
+                       options: .allowUserInteraction, animations: {
             self.collectionView.setContentOffset(point, animated: true)
         }, completion: nil)
-    }
-    
-    func targetContentOffset(_ scrollView: UIScrollView, withVelocity velocity: CGPoint) -> CGPoint {
-        guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return .zero }
-        
-        if velocity.x < 0 {
-            if currentPage == 1 {
-                return CGPoint.zero
-            }
-            currentPage = currentPage - 1
-        } else if velocity.x > 0 {
-            if currentPage == items.count {
-                return CGPoint(x: currentOffset, y: 0)
-            }
-            currentPage = currentPage + 1
-        }
-        
-        let additional = (flowLayout.itemSize.width + flowLayout.minimumLineSpacing) - flowLayout.headerReferenceSize.width
-        
-        let updatedOffset = (flowLayout.itemSize.width + flowLayout.minimumLineSpacing) * CGFloat(currentPage) - additional
-    
-        currentOffset = updatedOffset
-        return CGPoint(x: updatedOffset, y: 0)
     }
 }
