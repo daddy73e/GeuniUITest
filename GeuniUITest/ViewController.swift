@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     enum Section: CaseIterable {
         case main
     }
+    //devrebaseTest
     //test1
     //test
     //    var arr = ["Zedd", "Alan Walker", "David Guetta", "Avicii", "Marshmello", "Steve Aoki", "R3HAB", "Armin van Buuren", "Skrillex", "Illenium", "The Chainsmokers", "Don Diablo", "Afrojack", "Tiesto", "KSHMR", "DJ Snake", "Kygo", "Galantis", "Major Lazer", "Vicetone"
