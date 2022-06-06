@@ -19,6 +19,7 @@ class ViewController: UIViewController {
     //test
     //    var arr = ["Zedd", "Alan Walker", "David Guetta", "Avicii", "Marshmello", "Steve Aoki", "R3HAB", "Armin van Buuren", "Skrillex", "Illenium", "The Chainsmokers", "Don Diablo", "Afrojack", "Tiesto", "KSHMR", "DJ Snake", "Kygo", "Galantis", "Major Lazer", "Vicetone"
     //    ]
+    //test0
     var arr = [
         LifeBenefit(id: "001", lifeBenefitType: .fortune,
                     fortunes: [
