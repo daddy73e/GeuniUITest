@@ -88,16 +88,20 @@ public struct LifeBenefitEvent {
     /// 배경 색상///
     public var backgroundColor:String
     
+    public var arrTest: [String]
+    
     public init(
         title:String,
         url:String,
         imageUrl:String,
-        backgroundColor:String
+        backgroundColor:String,
+        arrTest: [String]
     ) {
         self.title = title
         self.url = url
         self.imageUrl = imageUrl
         self.backgroundColor = backgroundColor
+        self.arrTest = arrTest
     }
 }
 

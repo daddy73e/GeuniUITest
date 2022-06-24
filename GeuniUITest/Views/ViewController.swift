@@ -15,12 +15,7 @@ class ViewController: UIViewController {
     enum Section: CaseIterable {
         case main
     }
-    //devrebaseTest2
-    //devrebaseTest
-    //test1
-    //test
-    //    var arr = ["Zedd", "Alan Walker", "David Guetta", "Avicii", "Marshmello", "Steve Aoki", "R3HAB", "Armin van Buuren", "Skrillex", "Illenium", "The Chainsmokers", "Don Diablo", "Afrojack", "Tiesto", "KSHMR", "DJ Snake", "Kygo", "Galantis", "Major Lazer", "Vicetone"
-    //    ]
+    
     var arr = [
         LifeBenefit(id: "001", lifeBenefitType: .fortune,
                     fortunes: [
@@ -29,8 +24,11 @@ class ViewController: UIViewController {
                                            url: "", imageUrl: "", backgroundColor: "")]),
         LifeBenefit(id: "002", lifeBenefitType: .event,
                     events: [
-                        LifeBenefitEvent(title: "이벤트1", url: "", imageUrl : "", backgroundColor: ""),
-                        LifeBenefitEvent(title: "이벤트2", url: "", imageUrl : "", backgroundColor: "")
+                        LifeBenefitEvent(title: "이벤트1", url: "", imageUrl : "", backgroundColor: "",
+                                         arrTest: ["TEST1","TEST2","TEST3","TEST4","TEST5"]),
+                        LifeBenefitEvent(title: "이벤트2", url: "", imageUrl : "", backgroundColor: "",
+                                         arrTest: ["TEST1","TEST2","TEST3","TEST4","TEST5"])
+                        
                     ]),
         LifeBenefit(id: "003", lifeBenefitType: .solQuiz,
                     solQuizs: [
