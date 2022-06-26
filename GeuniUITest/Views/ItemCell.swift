@@ -38,10 +38,11 @@ class ItemCell: UICollectionViewCell {
         self.configureLayout()
     }
     
-    override func sizeThatFits(_ size: CGSize) -> CGSize {
-        configureLayout()
-        return CGSize(width: size.width, height: 220)
-    }
+//    override func sizeThatFits(_ size: CGSize) -> CGSize {
+//        configureLayout()
+//        container.flex.layout(mode: .adjustHeight)
+//        return CGSize(width: size.width, height: container.bounds.height)
+//    }
     
     public func configure(itemValue:String) {
         self.label.text = itemValue

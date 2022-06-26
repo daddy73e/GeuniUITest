@@ -1,8 +1,8 @@
 //
-//  LifeBenefitEventCell.swift
+//  LifeBenefitEventCustomSizeCell.swift
 //  GeuniUITest
 //
-//  Created by 60157085 on 2022/05/31.
+//  Created by Yeongeun Song on 2022/06/25.
 //
 
 import UIKit
@@ -10,9 +10,16 @@ import FlexLayout
 import PinLayout
 import Then
 
-class LifeBenefitEventCell: UICollectionViewCell {
+class LifeBenefitEventCustomSizeCell: UICollectionViewCell {
     
     var dataSource: UICollectionViewDiffableDataSource<Int, String>!
+    
+    public func debugHeihgt() {
+        print("self.collectionView.contentSize = \(self.collectionView.contentSize)")
+        print("self.collectionView.frame.height = \(self.collectionView.frame.height)")
+        print("self.contentView height = \(self.contentView.frame.height)")
+        print("self.container height = \(self.container.frame.height)")
+    }
     
     private let container = UIView().then {
         $0.backgroundColor = .white
@@ -47,11 +54,16 @@ class LifeBenefitEventCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.configureLayout()
+        let height = collectionView.contentSize.height
+        print("height = \(height)")
+//        myCollectionViewHeight.constant = height
+//        self.view.layoutIfNeeded()
     }
+    
     
     override func sizeThatFits(_ size: CGSize) -> CGSize {
         configureLayout()
-        return CGSize(width: size.width, height: 220)
+        return CGSize(width: size.width, height: 500)
     }
     
     
@@ -73,16 +85,18 @@ class LifeBenefitEventCell: UICollectionViewCell {
         snapshot.appendSections([0])
         snapshot.appendItems(data.arrTest)
         self.dataSource.apply(snapshot, animatingDifferences: true)
+        let height = collectionView.contentSize.height
+        print("height = \(height)")
     }
     
     func makeLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int,
                                                             layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection in
             let columns = 1
-            let spacing = CGFloat(10)
+            let spacing = CGFloat(0)
             
             let itemSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(0.5),
+                widthDimension: .fractionalWidth(1),
                 heightDimension: .estimated(30))
             
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -97,16 +111,16 @@ class LifeBenefitEventCell: UICollectionViewCell {
             return section
         }
         let config = UICollectionViewCompositionalLayoutConfiguration()
-        config.scrollDirection = .horizontal
+        config.scrollDirection = .vertical
         layout.configuration = config
         return layout
     }
 }
 
-extension LifeBenefitEventCell {
+extension LifeBenefitEventCustomSizeCell {
     func configureUI() {
         contentView.flex.define { flex in
-            flex.addItem(container).grow(1)
+            flex.addItem(container).margin(0)
         }
         
         container.flex.direction(.row).define { flex in
@@ -115,9 +129,8 @@ extension LifeBenefitEventCell {
     }
     
     func configureLayout() {
-        contentView.flex.layout()
         container.flex.layout()
-        collectionView.pin.all()
         container.pin.all()
+//        contentView.pin.height(200)
     }
 }

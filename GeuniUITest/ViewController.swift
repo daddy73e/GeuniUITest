@@ -30,6 +30,18 @@ class ViewController: UIViewController {
                                          arrTest: ["TEST1","TEST2","TEST3","TEST4","TEST5"])
                         
                     ]),
+        LifeBenefit(id: "010", lifeBenefitType: .smartOffer,
+                    events: [
+                        LifeBenefitEvent(title: "이벤트1", url: "", imageUrl : "", backgroundColor: "",
+                                         arrTest: ["TEST1","TEST2","TEST3","TEST4","TEST5"]),
+                        LifeBenefitEvent(title: "이벤트2", url: "", imageUrl : "", backgroundColor: "",
+                                         arrTest: ["TEST1","TEST2","TEST3","TEST4","TEST5"]),
+                        LifeBenefitEvent(title: "이벤트2", url: "", imageUrl : "", backgroundColor: "",
+                                         arrTest: ["TEST1","TEST2","TEST3","TEST4","TEST5"]),
+                        LifeBenefitEvent(title: "이벤트2", url: "", imageUrl : "", backgroundColor: "",
+                                         arrTest: ["TEST1","TEST2","TEST3","TEST4","TEST5"])
+                        
+                    ]),
         LifeBenefit(id: "003", lifeBenefitType: .solQuiz,
                     solQuizs: [
                         LifeBenefitSolQuiz(solQuize: "퀴즈 문제 퀴즈 문제 퀴즈 문제 퀴즈 문제 퀴즈 문제 퀴즈 문제 퀴즈 문제 퀴즈 문제 퀴즈 문제 ", url: "", imageUrl: "")
@@ -44,14 +56,16 @@ class ViewController: UIViewController {
     
     var dataSource: UICollectionViewDiffableDataSource<Section, LifeBenefit>!
     
-    let collectionView = UICollectionView(frame: .zero,
+    lazy var collectionView = UICollectionView(frame: .zero,
                                           collectionViewLayout: .init()).then {
-        
+        $0.delegate = self
         $0.backgroundColor = .systemBackground
         $0.register(LifeBenefitFortuneCell.self, forCellWithReuseIdentifier: "LifeBenefitFortuneCell")
         $0.register(LifeBenefitEventCell.self, forCellWithReuseIdentifier: "LifeBenefitEventCell")
         $0.register(LifeBenefitSolQuizeCell.self, forCellWithReuseIdentifier: "LifeBenefitSolQuizeCell")
         $0.register(LifeBenefitImageButtonCell.self, forCellWithReuseIdentifier: "LifeBenefitImageButtonCell")
+        $0.register(LifeBenefitImageButtonCell.self, forCellWithReuseIdentifier: "LifeBenefitImageButtonCell")
+        $0.register(LifeBenefitEventCustomSizeCell.self, forCellWithReuseIdentifier: "LifeBenefitEventCustomSizeCell")
     }
     
     let pagerView = PagerView()
@@ -91,6 +105,12 @@ class ViewController: UIViewController {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LifeBenefitImageButtonCell", for: indexPath) as? LifeBenefitImageButtonCell
                 if let data = lifeBenefit.heyYoungQuizs?[0] {
                     cell?.configure(data: data)
+                }
+                return cell
+            case .smartOffer:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LifeBenefitEventCustomSizeCell", for: indexPath) as? LifeBenefitEventCustomSizeCell
+                if let data = lifeBenefit.events?[0] {
+                    cell?.configure(data:data)
                 }
                 return cell
             default:
@@ -142,6 +162,17 @@ class ViewController: UIViewController {
     }
 }
 
+extension ViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let cell:LifeBenefitEventCustomSizeCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LifeBenefitEventCustomSizeCell",
+                                                                                        for: IndexPath(row: 2, section: 0)) as? LifeBenefitEventCustomSizeCell {
+            cell.debugHeihgt()
+        }
+        
+        
+    }
+}
+
 extension ViewController {
     func layoutViews() {
         collectionView.pin.all(self.view.pin.safeArea)
@@ -149,3 +180,4 @@ extension ViewController {
         pagerView.pin.bottom(self.view.pin.safeArea.bottom).height(100).left().right()
     }
 }
+
