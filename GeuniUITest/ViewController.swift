@@ -9,6 +9,7 @@ import UIKit
 import FlexLayout
 import PinLayout
 import Then
+import HMSegmentedControl
 
 class ViewController: UIViewController {
     
@@ -72,11 +73,11 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.collectionViewLayout = self.createLayout()
-        self.view.addSubview(collectionView)
-        self.view.addSubview(pagerView)
-        self.setupDataSource()
-        self.performQuery(with: nil)
+//        collectionView.collectionViewLayout = self.createLayout()
+//        self.view.addSubview(collectionView)
+//        self.view.addSubview(pagerView)
+//        self.setupDataSource()
+//        self.performQuery(with: nil)
     }
     
     func setupDataSource() {

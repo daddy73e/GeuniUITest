@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="IU2-8W-elG">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
@@ -8,20 +8,95 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Moneyverse View Controller-->
+        <!--Save Image View Controller-->
         <scene sceneID="BMw-te-7zd">
             <objects>
-                <viewController id="hna-As-VoE" customClass="MoneyverseViewController" customModule="GeuniUITest" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="hna-As-VoE" customClass="SaveImageViewController" customModule="GeuniUITest" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xnS-Ja-uIc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2BV-NA-Mey">
+                                <rect key="frame" x="0.0" y="362" width="414" height="500"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="500" id="0yp-C3-72L"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="INW-l9-6ti">
+                                <rect key="frame" x="0.0" y="44" width="414" height="200"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5qc-nV-Cnb">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="66.5"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="gray" title="pick"/>
+                                        <connections>
+                                            <action selector="tapImagePicker:" destination="hna-As-VoE" eventType="touchUpInside" id="H0a-lW-BtE"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nLC-YU-Dka">
+                                        <rect key="frame" x="0.0" y="66.5" width="414" height="67"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="gray" title="save"/>
+                                        <connections>
+                                            <action selector="saveImage:" destination="hna-As-VoE" eventType="touchUpInside" id="pKO-hv-PbK"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yQO-xW-tAW">
+                                        <rect key="frame" x="0.0" y="133.5" width="414" height="66.5"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="gray" title="load"/>
+                                        <connections>
+                                            <action selector="loadImage:" destination="hna-As-VoE" eventType="touchUpInside" id="yae-Fu-7fT"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="TGn-A1-NVv"/>
+                                </constraints>
+                            </stackView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Tie-9u-GZu">
+                                <rect key="frame" x="50" y="244" width="314" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="gls-ql-WXw"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="gls-ql-WXw" firstAttribute="trailing" secondItem="Tie-9u-GZu" secondAttribute="trailing" constant="50" id="3rr-52-WUa"/>
+                            <constraint firstItem="2BV-NA-Mey" firstAttribute="leading" secondItem="gls-ql-WXw" secondAttribute="leading" id="6gf-Ne-zdo"/>
+                            <constraint firstItem="gls-ql-WXw" firstAttribute="bottom" secondItem="2BV-NA-Mey" secondAttribute="bottom" id="8ZO-za-Ogb"/>
+                            <constraint firstItem="INW-l9-6ti" firstAttribute="leading" secondItem="gls-ql-WXw" secondAttribute="leading" id="Cse-Ci-52h"/>
+                            <constraint firstItem="Tie-9u-GZu" firstAttribute="top" secondItem="INW-l9-6ti" secondAttribute="bottom" id="LQw-57-PWy"/>
+                            <constraint firstItem="INW-l9-6ti" firstAttribute="top" secondItem="gls-ql-WXw" secondAttribute="top" id="LYv-gG-0zt"/>
+                            <constraint firstItem="gls-ql-WXw" firstAttribute="trailing" secondItem="INW-l9-6ti" secondAttribute="trailing" id="Snc-Dw-8jC"/>
+                            <constraint firstItem="Tie-9u-GZu" firstAttribute="leading" secondItem="gls-ql-WXw" secondAttribute="leading" constant="50" id="drJ-EB-rGI"/>
+                            <constraint firstItem="gls-ql-WXw" firstAttribute="trailing" secondItem="2BV-NA-Mey" secondAttribute="trailing" id="g6Z-WF-02T"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="imageView" destination="2BV-NA-Mey" id="PwD-hp-15i"/>
+                        <outlet property="nameText" destination="Tie-9u-GZu" id="q2D-MK-Olz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cxh-Sj-n31" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="100" y="779"/>
+        </scene>
+        <!--Geuni Tab Bar View Controller-->
+        <scene sceneID="sFV-uX-lMr">
+            <objects>
+                <viewController id="IU2-8W-elG" customClass="GeuniTabBarViewController" customModule="GeuniUITest" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zgM-cf-oWU">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="ltT-bx-IL2"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tzm-xm-Cfz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="867" y="812"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">

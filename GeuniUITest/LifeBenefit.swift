@@ -5,7 +5,7 @@
 //  Created by 60157085 on 2022/05/30.
 //
 
-public struct LifeBenefit :Hashable{
+public struct LifeBenefit: Hashable{
     public static func == (lhs: LifeBenefit, rhs: LifeBenefit) -> Bool {
         return lhs.id == rhs.id
     }
