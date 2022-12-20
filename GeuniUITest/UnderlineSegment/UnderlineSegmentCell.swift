@@ -1,43 +1,21 @@
 //
-//  TabItemViewCell.swift
+//  UnderlineSegmentCell.swift
 //  GeuniUITest
 //
 //  Created by 60157085 on 2022/11/22.
 //
 
 import UIKit
-import FlexLayout
-import PinLayout
-import Then
 
-public struct TabItem {
-    public let key: Int
-    public let value: String
-    public var selected = false
-    public var underLineHeight = 0.0
-    
-    init(
-        key: Int,
-        value: String,
-        selected: Bool = false,
-        underLineHeight: CGFloat = 0.0
-    ) {
-        self.key = key
-        self.value = value
-        self.selected = selected
-        self.underLineHeight = underLineHeight
-    }
-}
-
-protocol TabItemViewCellDelegate: AnyObject {
-    func selectCell(item: TabItem)
+protocol UnderlineSegmentCellDelegate: AnyObject {
+    func selectCell(item: UnderlineSegmentItem)
     func animateCell(frame: CGRect)
 }
 
-final class TabItemViewCell: UICollectionViewCell {
+final class UnderlineSegmentCell: UICollectionViewCell {
     
-    public weak var delegate: TabItemViewCellDelegate?
-    private var cellState: TabItem?
+    public weak var delegate: UnderlineSegmentCellDelegate?
+    private var cellState: UnderlineSegmentItem?
     
     public var normalFont: UIFont?
     public var selectedFont: UIFont?
@@ -62,43 +40,53 @@ final class TabItemViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.configureUI()
+        self.configureLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        self.configureLayout()
-    }
-    
-    override func sizeThatFits(_ size: CGSize) -> CGSize {
-        configureLayout()
-        contentView.flex.layout(mode: .adjustWidth)
-        return contentView.frame.size
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
     }
     
     func configureUI() {
-        contentView.flex.define { flex in
-            flex.addItem(container).grow(1)
-        }
-        
-        container.flex.direction(.column).define { flex in
-            flex.addItem(button).marginTop(4).marginHorizontal(0).marginBottom(0)
-        }
+        self.contentView.addSubview(container)
+        self.container.addSubview(button)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
     }
     
     func configureLayout() {
-        container.pin.all()
-        container.flex.layout()
+        self.container.translatesAutoresizingMaskIntoConstraints = false
+        self.button.translatesAutoresizingMaskIntoConstraints = false
+        
+        let constraints: [NSLayoutConstraint] = [
+            self.container.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
+            self.container.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
+            self.container.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
+            self.container.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),
+            self.button.topAnchor.constraint(equalTo: self.container.topAnchor, constant: 0),
+            self.button.leadingAnchor.constraint(equalTo: self.container.leadingAnchor, constant: 0),
+            self.button.trailingAnchor.constraint(equalTo: self.container.trailingAnchor, constant: 0),
+            self.button.bottomAnchor.constraint(equalTo: self.container.bottomAnchor, constant: 0),
+        ]
+        
+        constraints.forEach {
+            $0.isActive = true
+        }
+        
+        NSLayoutConstraint.activate(constraints)
     }
     
-    func configure(item: TabItem) {
+    func configure(item: UnderlineSegmentItem) {
         cellState = item
         button.setTitle(item.value, for: .normal)
         button.flex.markDirty()
-
+        
         if item.selected {
             self.isSelected = true
             button.titleLabel?.font = selectedFont
@@ -112,7 +100,7 @@ final class TabItemViewCell: UICollectionViewCell {
             self.setNeedsLayout()
         }
     }
- 
+    
     func animateUnderline(button: UIButton) {
         DispatchQueue.main.async {
             guard let globalFrame = button.globalFrame(window: button.window) else {

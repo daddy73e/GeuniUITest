@@ -16,8 +16,13 @@
 		6B943B3A286AE267005115B1 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B943B39286AE267005115B1 /* HeaderView.swift */; };
 		6B95C5F8292B4ACE00539FC9 /* HMSegmentedControl in Frameworks */ = {isa = PBXBuildFile; productRef = 6B95C5F7292B4ACE00539FC9 /* HMSegmentedControl */; };
 		6B95C605292C609700539FC9 /* GeuniTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B95C604292C609700539FC9 /* GeuniTabBarViewController.swift */; };
-		6B95C607292C616700539FC9 /* TabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B95C606292C616700539FC9 /* TabbarView.swift */; };
-		6B95C609292C96C000539FC9 /* TabItemViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B95C608292C96C000539FC9 /* TabItemViewCell.swift */; };
+		6B95C607292C616700539FC9 /* UnderlineSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B95C606292C616700539FC9 /* UnderlineSegmentView.swift */; };
+		6B95C609292C96C000539FC9 /* UnderlineSegmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B95C608292C96C000539FC9 /* UnderlineSegmentCell.swift */; };
+		6B95C612293037B100539FC9 /* TopScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B95C611293037B100539FC9 /* TopScrollViewController.swift */; };
+		6B95C614293042CF00539FC9 /* Test0ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B95C613293042CF00539FC9 /* Test0ViewController.swift */; };
+		6B95C616293042D800539FC9 /* Test1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B95C615293042D800539FC9 /* Test1ViewController.swift */; };
+		6B95C619293045B100539FC9 /* TestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B95C618293045B100539FC9 /* TestCollectionViewCell.swift */; };
+		6B95C61C2930991900539FC9 /* UnderlineSegmentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B95C61B2930991900539FC9 /* UnderlineSegmentItem.swift */; };
 		6BEB34882845D5180009835D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEB34872845D5180009835D /* AppDelegate.swift */; };
 		6BEB348A2845D5180009835D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEB34892845D5180009835D /* SceneDelegate.swift */; };
 		6BEB348C2845D5180009835D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEB348B2845D5180009835D /* ViewController.swift */; };
@@ -69,8 +74,13 @@
 		6B943B39286AE267005115B1 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		6B95C5EA292AF75A00539FC9 /* GeuniUITest-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GeuniUITest-Bridging-Header.h"; sourceTree = "<group>"; };
 		6B95C604292C609700539FC9 /* GeuniTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeuniTabBarViewController.swift; sourceTree = "<group>"; };
-		6B95C606292C616700539FC9 /* TabbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarView.swift; sourceTree = "<group>"; };
-		6B95C608292C96C000539FC9 /* TabItemViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItemViewCell.swift; sourceTree = "<group>"; };
+		6B95C606292C616700539FC9 /* UnderlineSegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineSegmentView.swift; sourceTree = "<group>"; };
+		6B95C608292C96C000539FC9 /* UnderlineSegmentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineSegmentCell.swift; sourceTree = "<group>"; };
+		6B95C611293037B100539FC9 /* TopScrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopScrollViewController.swift; sourceTree = "<group>"; };
+		6B95C613293042CF00539FC9 /* Test0ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test0ViewController.swift; sourceTree = "<group>"; };
+		6B95C615293042D800539FC9 /* Test1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test1ViewController.swift; sourceTree = "<group>"; };
+		6B95C618293045B100539FC9 /* TestCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCollectionViewCell.swift; sourceTree = "<group>"; };
+		6B95C61B2930991900539FC9 /* UnderlineSegmentItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineSegmentItem.swift; sourceTree = "<group>"; };
 		6BEB34842845D5180009835D /* GeuniUITest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GeuniUITest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BEB34872845D5180009835D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6BEB34892845D5180009835D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -151,6 +161,27 @@
 			path = Moneyverse;
 			sourceTree = "<group>";
 		};
+		6B95C617293042DC00539FC9 /* TopScroll */ = {
+			isa = PBXGroup;
+			children = (
+				6B95C611293037B100539FC9 /* TopScrollViewController.swift */,
+				6B95C613293042CF00539FC9 /* Test0ViewController.swift */,
+				6B95C615293042D800539FC9 /* Test1ViewController.swift */,
+				6B95C618293045B100539FC9 /* TestCollectionViewCell.swift */,
+			);
+			path = TopScroll;
+			sourceTree = "<group>";
+		};
+		6B95C61A2930988300539FC9 /* UnderlineSegment */ = {
+			isa = PBXGroup;
+			children = (
+				6B95C606292C616700539FC9 /* UnderlineSegmentView.swift */,
+				6B95C608292C96C000539FC9 /* UnderlineSegmentCell.swift */,
+				6B95C61B2930991900539FC9 /* UnderlineSegmentItem.swift */,
+			);
+			path = UnderlineSegment;
+			sourceTree = "<group>";
+		};
 		6BEB347B2845D5180009835D = {
 			isa = PBXGroup;
 			children = (
@@ -176,6 +207,8 @@
 		6BEB34862845D5180009835D /* GeuniUITest */ = {
 			isa = PBXGroup;
 			children = (
+				6B95C61A2930988300539FC9 /* UnderlineSegment */,
+				6B95C617293042DC00539FC9 /* TopScroll */,
 				6B31950A2859C61C007ACB6A /* Moneyverse */,
 				6BEB348B2845D5180009835D /* ViewController.swift */,
 				6BEB34B82845D5760009835D /* LifeBenefit.swift */,
@@ -188,8 +221,6 @@
 				6BEB34952845D5180009835D /* Info.plist */,
 				6B95C5EA292AF75A00539FC9 /* GeuniUITest-Bridging-Header.h */,
 				6B95C604292C609700539FC9 /* GeuniTabBarViewController.swift */,
-				6B95C606292C616700539FC9 /* TabbarView.swift */,
-				6B95C608292C96C000539FC9 /* TabItemViewCell.swift */,
 			);
 			path = GeuniUITest;
 			sourceTree = "<group>";
@@ -485,11 +516,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B3B698B2924711D00BE6611 /* TabBarViewController.swift in Sources */,
-				6B95C609292C96C000539FC9 /* TabItemViewCell.swift in Sources */,
+				6B95C609292C96C000539FC9 /* UnderlineSegmentCell.swift in Sources */,
 				6BEB34BB2845D5760009835D /* LifeBenefitFortuneCell.swift in Sources */,
 				6BEB34BF2845F7CC0009835D /* LifeBenefitSolQuizeCell.swift in Sources */,
 				6BEB348C2845D5180009835D /* ViewController.swift in Sources */,
 				6BEB34BA2845D5760009835D /* LifeBenefit.swift in Sources */,
+				6B95C619293045B100539FC9 /* TestCollectionViewCell.swift in Sources */,
 				C7BC52702867499F00918FFB /* LifeBenefitEventCustomSizeCell.swift in Sources */,
 				6B95C605292C609700539FC9 /* GeuniTabBarViewController.swift in Sources */,
 				6BEB34882845D5180009835D /* AppDelegate.swift in Sources */,
@@ -497,12 +529,16 @@
 				6BEB34C12845FF9C0009835D /* LifeBenefitImageButtonCell.swift in Sources */,
 				C7BF5B682847AF26001CEC3E /* PagerView.swift in Sources */,
 				C7BC526E2865F6C600918FFB /* ItemCell.swift in Sources */,
+				6B95C614293042CF00539FC9 /* Test0ViewController.swift in Sources */,
 				C7BF5B6A2847B169001CEC3E /* PagerItemCell.swift in Sources */,
+				6B95C61C2930991900539FC9 /* UnderlineSegmentItem.swift in Sources */,
+				6B95C612293037B100539FC9 /* TopScrollViewController.swift in Sources */,
 				6B3195082859C527007ACB6A /* SaveImageViewController.swift in Sources */,
+				6B95C616293042D800539FC9 /* Test1ViewController.swift in Sources */,
 				6BEB34BD2845F27D0009835D /* LifeBenefitEventCell.swift in Sources */,
 				6B3B698D2924768E00BE6611 /* UnderlineTabBar.swift in Sources */,
 				6B69B92328C7286000898C13 /* MoneyverseProgressView.swift in Sources */,
-				6B95C607292C616700539FC9 /* TabbarView.swift in Sources */,
+				6B95C607292C616700539FC9 /* UnderlineSegmentView.swift in Sources */,
 				6B943B3A286AE267005115B1 /* HeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

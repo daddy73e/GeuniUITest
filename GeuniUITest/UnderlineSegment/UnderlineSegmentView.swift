@@ -1,5 +1,5 @@
 //
-//  UnderlineSegemntView.swift
+//  UnderlineSegmentView.swift
 //  GeuniUITest
 //
 //  Created by 60157085 on 2022/11/22.
@@ -10,29 +10,18 @@ import FlexLayout
 import PinLayout
 import Then
 
-protocol UnderlineSegemntViewDelegate: AnyObject {
-    func selectedTabItem(item: TabItem, updateTabItems: [TabItem])
+protocol UnderlineSegmentViewDelegate: AnyObject {
+    func selectedTabItem(item: UnderlineSegmentItem)
 }
 
-final class UnderlineSegemntView: UIView {
+final class UnderlineSegmentView: UIView {
     
-    public weak var delegate: UnderlineSegemntViewDelegate?
+    public weak var delegate: UnderlineSegmentViewDelegate?
     
     private let container = UIView()
     private var underLine = UIView()
-    private var tabItems = [TabItem]()
-    private lazy var collectionView = UICollectionView(
-        frame: .zero,
-        collectionViewLayout: makeLayout()
-    ).then { [weak self] in
-        $0.delegate = self
-        $0.dataSource = self
-        $0.backgroundColor = .clear
-        $0.contentInset = self?.padding ?? UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        $0.showsHorizontalScrollIndicator = false
-        $0.register(TabItemViewCell.self, forCellWithReuseIdentifier: TabItemViewCell.identifier)
-    }
-    
+    private var tabItems = [UnderlineSegmentItem]()
+    private var flagInitialize = false /// init시 underline animation 동작 방지를 위한 flag
     private let normalFont: UIFont
     private let selectedFont: UIFont
     private let normalTitleColor: UIColor
@@ -42,6 +31,18 @@ final class UnderlineSegemntView: UIView {
     private let spacing: CGFloat
     private let padding: UIEdgeInsets
     private var selectedIndex: Int?
+    
+    private lazy var collectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: makeLayout()
+    ).then { [weak self] in
+        $0.delegate = self
+        $0.dataSource = self
+        $0.backgroundColor = .clear
+        $0.contentInset = self?.padding ?? UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        $0.showsHorizontalScrollIndicator = false
+        $0.register(UnderlineSegmentCell.self, forCellWithReuseIdentifier: UnderlineSegmentCell.identifier)
+    }
     
     init(
         normalFont: UIFont = .systemFont(ofSize: 25),
@@ -100,6 +101,15 @@ final class UnderlineSegemntView: UIView {
         self.configureLayout()
     }
     
+    public func selectedItemIndex() -> Int? {
+        for index in 0..<tabItems.count {
+            if tabItems[index].selected {
+                return index
+            }
+        }
+        return nil
+    }
+    
     func configureUI() {
         self.addSubview(self.container)
         self.container.flex.define { flex in
@@ -119,7 +129,7 @@ final class UnderlineSegemntView: UIView {
         self.collectionView.pin.all()
     }
     
-    func configureView(values: [TabItem], selectedIndex: Int? = 0) {
+    func configureView(values: [UnderlineSegmentItem], selectedIndex: Int? = 0) {
         guard let selectedIndex = selectedIndex else {
             refreshTabBar(values: values)
             self.selectedIndex = 0
@@ -170,39 +180,55 @@ final class UnderlineSegemntView: UIView {
                     animated: false
                 )
             }
-            
         }
     }
     
-    func refreshTabBar(values: [TabItem]) {
+    func refreshTabBar(values: [UnderlineSegmentItem]) {
         tabItems = values
         configureLayout()
         self.collectionView.reloadData()
     }
     
-    func updateUnderline(frame: CGRect, animated: Bool) {
+    private func updateUnderline(frame: CGRect, animated: Bool) {
         self.underLine.isHidden = false
-        DispatchQueue.main.async {
+        let contentOffsetX = self.collectionView.contentOffset.x
+        var leftPadding = self.padding.left
+        
+        if contentOffsetX < 0 {
+            let magnitudeX = contentOffsetX.magnitude
+            if leftPadding != magnitudeX {
+                leftPadding = magnitudeX
+            }
+        } else {
+            let magnitudeX = contentOffsetX.magnitude
+            leftPadding = -magnitudeX
+        }
+        
+        let updateOriginX = frame.origin.x - leftPadding  - (self.window?.safeAreaInsets.left ?? 0.0)
+        let updateOriginY = self.collectionView.frame.height - self.underLineHeight
+        
+        DispatchQueue.main.async { [weak self] in
             if !animated {
-                self.underLine.frame = CGRect(
-                    x: frame.origin.x + self.collectionView.contentOffset.x,
-                    y: self.collectionView.frame.height - self.underLineHeight,
+                self?.underLine.frame = CGRect(
+                    x: updateOriginX,
+                    y: updateOriginY,
                     width: frame.size.width,
-                    height: self.underLineHeight
+                    height: self?.underLineHeight ?? 0.0
                 )
+                self?.flagInitialize = true
             } else {
                 UIView.animate(
-                    withDuration: 0.2,
+                    withDuration: 0.15,
                     delay: 0 ,
                     options: .curveEaseInOut
                 ) { [weak self] in
+                    self?.underLine.layoutIfNeeded()
                     self?.underLine.frame = CGRect(
-                        x: frame.origin.x + (self?.collectionView.contentOffset.x ?? 0.0),
-                        y: (self?.collectionView.frame.height ?? 0.0) - (self?.underLineHeight ?? 0.0),
+                        x: updateOriginX,
+                        y: updateOriginY,
                         width: frame.size.width,
                         height: self?.underLineHeight ?? 0.0
                     )
-                    self?.underLine.layoutIfNeeded()
                 } completion: { isFinish in
                     
                 }
@@ -211,16 +237,16 @@ final class UnderlineSegemntView: UIView {
     }
 }
 
-extension UnderlineSegemntView: UICollectionViewDelegate, UICollectionViewDataSource {
+extension UnderlineSegmentView: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return tabItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: TabItemViewCell.identifier,
+            withReuseIdentifier: UnderlineSegmentCell.identifier,
             for: indexPath
-        ) as? TabItemViewCell {
+        ) as? UnderlineSegmentCell {
             cell.delegate = self
             cell.normalFont = normalFont
             cell.selectedFont = selectedFont
@@ -234,17 +260,20 @@ extension UnderlineSegemntView: UICollectionViewDelegate, UICollectionViewDataSo
     }
 }
 
-extension UnderlineSegemntView: TabItemViewCellDelegate {
-    func selectCell(item: TabItem) {
+extension UnderlineSegmentView: UnderlineSegmentCellDelegate {
+    func selectCell(item: UnderlineSegmentItem) {
+        self.delegate?.selectedTabItem(item: item)
         for (index, each) in tabItems.enumerated() {
             tabItems[index].selected = each.key == item.key
         }
-        
-        self.delegate?.selectedTabItem(item: item, updateTabItems: tabItems)
+        self.refreshTabBar(values: tabItems)
     }
     
     func animateCell(frame: CGRect) {
-        self.updateUnderline(frame: frame, animated: true)
+        print("self.frame = \(self.frame), selected cell frame = \(frame)")
+        if flagInitialize {
+            self.updateUnderline(frame: frame, animated: true)
+        }
     }
 }
 

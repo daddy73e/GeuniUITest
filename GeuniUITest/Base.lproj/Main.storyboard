@@ -83,10 +83,10 @@
             </objects>
             <point key="canvasLocation" x="100" y="779"/>
         </scene>
-        <!--Geuni Tab Bar View Controller-->
+        <!--Top Scroll View Controller-->
         <scene sceneID="sFV-uX-lMr">
             <objects>
-                <viewController id="IU2-8W-elG" customClass="GeuniTabBarViewController" customModule="GeuniUITest" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="IU2-8W-elG" customClass="TopScrollViewController" customModule="GeuniUITest" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zgM-cf-oWU">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

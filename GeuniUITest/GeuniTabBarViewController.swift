@@ -12,7 +12,7 @@ import Then
 
 class GeuniTabBarViewController: UIViewController {
 
-    lazy var tabbarView = UnderlineSegemntView(
+    lazy var tabbarView = UnderlineSegmentView(
         normalTitleColor: .blue,
         selectedTitleColor: .gray,
         spacing: 5.0,
@@ -22,10 +22,8 @@ class GeuniTabBarViewController: UIViewController {
     }
     
     var tabItems = [
-        TabItem(key: 0, value: "test"),
-        TabItem(key: 1, value: "testtesttest"),
-        TabItem(key: 2, value: "t"),
-        TabItem(key: 3, value: "test")
+        UnderlineSegmentItem(key: 0, value: "test", pageIndex: 0),
+        UnderlineSegmentItem(key: 1, value: "testtesttest", pageIndex: 1),
     ]
     
     let container = UIView()
@@ -47,10 +45,9 @@ class GeuniTabBarViewController: UIViewController {
     }
 }
 
-extension GeuniTabBarViewController: UnderlineSegemntViewDelegate {
-    func selectedTabItem(item: TabItem, updateTabItems: [TabItem]) {
-        print(item)
-        tabbarView.refreshTabBar(values: updateTabItems)
+extension GeuniTabBarViewController: UnderlineSegmentViewDelegate {
+    func selectedTabItem(item: UnderlineSegmentItem) {
+        print(item.key)
     }
 }
 
@@ -62,6 +59,7 @@ private extension GeuniTabBarViewController {
         
         container.flex.define { flex in
             flex.addItem(tabbarView).height(50).horizontally(0).marginRight(100)
+                .backgroundColor(.lightGray)
         }
     }
     
